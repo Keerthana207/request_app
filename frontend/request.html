@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Service Request</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="request-body">
+
+  <div class="request-container">
+
+    <h2>Student Service Request</h2>
+    <div style="text-align:right; margin-bottom:15px;">
+  <button onclick="window.location.href='myrequests.html'"
+    style="
+      padding:8px 14px;
+      border:none;
+      border-radius:20px;
+      background:#3498db;
+      color:white;
+      cursor:pointer;
+    ">
+    📄 My Requests
+  </button>
+</div>
+
+
+    <input type="text" id="title" placeholder="Request Title">
+    <br><br>
+
+    <textarea id="description" placeholder="Describe your request"></textarea>
+    <br><br>
+
+    <button class="primary-btn" onclick="submitRequest()">Submit Request</button>
+    <br><br>
+
+    <!-- ✅ Logout Button Bottom -->
+    <button onclick="logout()" class="logout-btn">Logout</button>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

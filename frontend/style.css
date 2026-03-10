@@ -1,0 +1,100 @@
+/* 🔵 Common Page Background */
+body.request-body,
+body.login-body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e9ebee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 🔵 Container Box */
+.request-container,
+.login-container {
+  background: white;
+  padding: 35px;
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+/* 🔵 Heading */
+h2 {
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* 🔵 Input & Textarea */
+input,
+textarea {
+  width: 85%;
+  max-width: 300px;
+  margin: 0 auto 15px auto;
+  display: block;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+}
+
+/* 🔵 Focus Effect */
+input:focus,
+textarea:focus {
+  border-color: #4a90e2;
+}
+
+/* 🔵 ALL Buttons Center Fix */
+button {
+  width: 85%;
+  max-width: 300px;
+  margin: 10px auto;
+  display: block;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+/* 🔵 Primary Button (Login / Submit / My Requests) */
+.primary-btn {
+  background: #4a90e2;
+  color: white;
+}
+
+/* 🔴 Logout Button */
+.logout-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+/* Hover Effect */
+button:hover {
+  opacity: 0.9;
+}
+
+/* 📱 Mobile Responsive */
+@media (max-width: 600px) {
+
+  .request-container,
+  .login-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  input,
+  textarea {
+    font-size: 14px;
+  }
+}
