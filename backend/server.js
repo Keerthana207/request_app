@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
   res.send("API Running...");
 });
 
+
 // SAVE REQUEST
 app.post("/request", async (req, res) => {
   try {
@@ -47,8 +48,9 @@ app.post("/request", async (req, res) => {
   }
 });
 
-// GET ALL REQUESTS
-app.get("/requests", async (req, res) => {
+
+// GET ALL REQUESTS  ✅ (single request route)
+app.get("/request", async (req, res) => {
   try {
     const allRequests = await Request.find();
     res.json(allRequests);
@@ -59,8 +61,9 @@ app.get("/requests", async (req, res) => {
   }
 });
 
-// UPDATE STATUS (Approve / Reject)
-app.put("/requests/:id", async (req, res) => {
+
+// UPDATE STATUS (Approve / Reject) ✅
+app.put("/request/:id", async (req, res) => {
   try {
     await Request.findByIdAndUpdate(
       req.params.id,
@@ -76,6 +79,7 @@ app.put("/requests/:id", async (req, res) => {
     res.status(500).send("Error updating status");
   }
 });
+
 
 // IMPORTANT FOR RENDER DEPLOY
 const PORT = process.env.PORT || 3000;
