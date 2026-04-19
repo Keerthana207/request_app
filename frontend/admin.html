@@ -177,14 +177,15 @@ let allData = [];
 let currentType = "All";
 let currentStatus = "All";
 
-/* IMPORTANT → Render backend URL */
+/* Render Backend URL */
+
 const BASE_URL = "https://request-app-2.onrender.com";
 
 /* UPDATE STATUS */
 
 function updateStatus(id, status){
 
-fetch(`${BASE_URL}/requests/${id}`, {
+fetch(`${BASE_URL}/request/${id}`, {
 method: "PUT",
 headers: {
 "Content-Type": "application/json"
@@ -195,6 +196,7 @@ status: status
 })
 .then(res => res.json())
 .then(data => {
+alert("Status Updated Successfully!");
 location.reload();
 })
 .catch(err => {
