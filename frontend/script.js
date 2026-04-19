@@ -1,65 +1,112 @@
-function login() {
-  const name = document.getElementById("name").value;
+// LOGIN
+function login(){
 
-  if (!name) {
-    alert("Please enter your name");
+  const name = document.getElementById("name").value;
+  const password = document.getElementById("password").value;
+
+  if(!name || !password){
+    alert("Please enter name and password");
+    return;
+  }
+
+  // simple password check
+  if(password !== "1234"){
+    alert("Wrong password");
     return;
   }
 
   localStorage.setItem("studentName", name);
+
   window.location.href = "request.html";
 }
 
-function submitRequest() {
+
+
+// SUBMIT REQUEST
+function submitRequest(){
+
+  const type = document.getElementById("type").value;
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
+
   const studentName = localStorage.getItem("studentName");
 
-  if (!studentName) {
+  if(!studentName){
     alert("Please login first");
     window.location.href = "login.html";
     return;
   }
 
-  if (!title || !description) {
+  if(!type || !title || !description){
     alert("Please fill all fields");
     return;
   }
 
   fetch("http://localhost:3000/request", {
+
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
+
+    headers:{
+      "Content-Type":"application/json"
     },
+
     body: JSON.stringify({
+
       name: studentName,
+      type: type,
       title: title,
       description: description
+
     })
+
   })
+
   .then(res => res.text())
   .then(data => {
+
     alert("Request Submitted Successfully!");
-    document.getElementById("title").value = "";
-    document.getElementById("description").value = "";
+
+    document.getElementById("type").value="";
+    document.getElementById("title").value="";
+    document.getElementById("description").value="";
+
   })
-  .catch(err => {
+
+  .catch(err=>{
     console.log(err);
     alert("Server error");
   });
-}
-// 🔹 Open Modal
-function openModal() {
-  document.getElementById("requestModal").style.display = "block";
+
 }
 
-// 🔹 Close Modal
-function closeModal() {
-  document.getElementById("requestModal").style.display = "none";
-}
 
-// 🔹 Logout
-function logout() {
+
+// LOGOUT
+function logout(){
+
   localStorage.removeItem("studentName");
-  window.location.href = "login.html";
+
+  window.location.href="login.html";
+
+}
+
+
+
+// SHOW USER NAME
+window.onload=function(){
+
+  const studentName=localStorage.getItem("studentName");
+
+  if(studentName){
+
+    const welcome=document.getElementById("welcomeUser");
+
+    if(welcome){
+
+      welcome.innerText="Welcome, "+studentName+" 👋";
+
+    }
+
+  }
+
 }
