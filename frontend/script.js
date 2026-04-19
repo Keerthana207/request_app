@@ -1,16 +1,16 @@
 // LOGIN
-function login(){
+function login() {
 
   const name = document.getElementById("name").value;
   const password = document.getElementById("password").value;
 
-  if(!name || !password){
+  if (!name || !password) {
     alert("Please enter name and password");
     return;
   }
 
-  // simple password check
-  if(password !== "1234"){
+  // Simple password check
+  if (password !== "1234") {
     alert("Wrong password");
     return;
   }
@@ -21,9 +21,8 @@ function login(){
 }
 
 
-
 // SUBMIT REQUEST
-function submitRequest(){
+function submitRequest() {
 
   const type = document.getElementById("type").value;
   const title = document.getElementById("title").value;
@@ -31,34 +30,29 @@ function submitRequest(){
 
   const studentName = localStorage.getItem("studentName");
 
-  if(!studentName){
+  if (!studentName) {
     alert("Please login first");
     window.location.href = "login.html";
     return;
   }
 
-  if(!type || !title || !description){
+  if (!type || !title || !description) {
     alert("Please fill all fields");
     return;
   }
 
-  fetch("http://localhost:3000/request", {
-
+  // 🔥 Render backend URL updated here
+  fetch("https://request-app-2.onrender.com/request", {
     method: "POST",
-
-    headers:{
-      "Content-Type":"application/json"
+    headers: {
+      "Content-Type": "application/json"
     },
-
     body: JSON.stringify({
-
       name: studentName,
       type: type,
       title: title,
       description: description
-
     })
-
   })
 
   .then(res => res.text())
@@ -66,13 +60,13 @@ function submitRequest(){
 
     alert("Request Submitted Successfully!");
 
-    document.getElementById("type").value="";
-    document.getElementById("title").value="";
-    document.getElementById("description").value="";
+    document.getElementById("type").value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
 
   })
 
-  .catch(err=>{
+  .catch(err => {
     console.log(err);
     alert("Server error");
   });
@@ -80,31 +74,27 @@ function submitRequest(){
 }
 
 
-
 // LOGOUT
-function logout(){
+function logout() {
 
   localStorage.removeItem("studentName");
 
-  window.location.href="login.html";
+  window.location.href = "login.html";
 
 }
 
 
-
 // SHOW USER NAME
-window.onload=function(){
+window.onload = function () {
 
-  const studentName=localStorage.getItem("studentName");
+  const studentName = localStorage.getItem("studentName");
 
-  if(studentName){
+  if (studentName) {
 
-    const welcome=document.getElementById("welcomeUser");
+    const welcome = document.getElementById("welcomeUser");
 
-    if(welcome){
-
-      welcome.innerText="Welcome, "+studentName+" 👋";
-
+    if (welcome) {
+      welcome.innerText = "Welcome, " + studentName + " 👋";
     }
 
   }

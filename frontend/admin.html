@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
@@ -79,23 +78,6 @@ text-align:center;
 margin-bottom:25px;
 }
 
-/* FILTER */
-
-.filter-row{
-text-align:center;
-margin-bottom:15px;
-}
-
-.filter-row button{
-margin:5px;
-padding:8px 15px;
-border:none;
-border-radius:20px;
-cursor:pointer;
-background:#3498db;
-color:white;
-}
-
 /* CARD */
 
 .card{
@@ -109,9 +91,20 @@ box-shadow:0 5px 15px rgba(0,0,0,0.08);
 
 /* STATUS */
 
-.status-approved{color:green;font-weight:bold;}
-.status-rejected{color:red;font-weight:bold;}
-.status-pending{color:orange;font-weight:bold;}
+.status-approved{
+color:green;
+font-weight:bold;
+}
+
+.status-rejected{
+color:red;
+font-weight:bold;
+}
+
+.status-pending{
+color:orange;
+font-weight:bold;
+}
 
 /* ACTION */
 
@@ -125,11 +118,15 @@ margin-right:5px;
 color:white;
 }
 
-.approve{background:#2ecc71;}
-.reject{background:#e74c3c;}
+.approve{
+background:#2ecc71;
+}
+
+.reject{
+background:#e74c3c;
+}
 
 </style>
-
 </head>
 
 <body>
@@ -156,9 +153,11 @@ color:white;
 
 </div>
 
-<a onclick="filterStatus('Pending')">Pending</a> <a onclick="filterStatus('Approved')">Approved</a> <a onclick="filterStatus('Rejected')">Rejected</a>
+<a onclick="filterStatus('Pending')">Pending</a>
+<a onclick="filterStatus('Approved')">Approved</a>
+<a onclick="filterStatus('Rejected')">Rejected</a>
 
-<a href="login.html">Logout</a>
+<a href="index.html">Logout</a>
 
 </div>
 
@@ -178,26 +177,48 @@ let allData = [];
 let currentType = "All";
 let currentStatus = "All";
 
-function updateStatus(id,status){
+/* IMPORTANT → Render backend URL */
+const BASE_URL = "https://request-app-2.onrender.com";
 
-fetch(`http://localhost:3000/requests/${id}`,{
-method:"PUT",
-headers:{ "Content-Type":"application/json" },
-body:JSON.stringify({status:status})
+/* UPDATE STATUS */
+
+function updateStatus(id, status){
+
+fetch(`${BASE_URL}/requests/${id}`, {
+method: "PUT",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+status: status
 })
-.then(()=>location.reload());
+})
+.then(res => res.json())
+.then(data => {
+location.reload();
+})
+.catch(err => {
+console.log(err);
+alert("Failed to update status");
+});
 
 }
+
+/* FILTER TYPE */
 
 function filterType(type){
 currentType = type;
 applyFilters();
 }
 
+/* FILTER STATUS */
+
 function filterStatus(status){
 currentStatus = status;
 applyFilters();
 }
+
+/* APPLY FILTERS */
 
 function applyFilters(){
 
@@ -210,12 +231,16 @@ filtered = filtered.filter(r =>
 }
 
 if(currentStatus !== "All"){
-filtered = filtered.filter(r => r.status === currentStatus);
+filtered = filtered.filter(r =>
+(r.status || "Pending") === currentStatus
+);
 }
 
 renderRequests(filtered);
 
 }
+
+/* RENDER REQUESTS */
 
 function renderRequests(data){
 
@@ -226,6 +251,8 @@ output = "<p style='text-align:center'>No Requests Found</p>";
 }
 
 data.forEach(r => {
+
+let status = r.status || "Pending";
 
 output += `
 
@@ -244,21 +271,23 @@ output += `
 <b>Status:</b>
 
 <span class="${
-r.status==="Approved"?"status-approved":
-r.status==="Rejected"?"status-rejected":
+status === "Approved" ? "status-approved" :
+status === "Rejected" ? "status-rejected" :
 "status-pending"
 }">
-${r.status}
+${status}
 </span>
 
 <br>
 
-<button class="action approve"
+<button
+class="action approve"
 onclick="updateStatus('${r._id}','Approved')">
 Approve
 </button>
 
-<button class="action reject"
+<button
+class="action reject"
 onclick="updateStatus('${r._id}','Rejected')">
 Reject
 </button>
@@ -273,11 +302,18 @@ document.getElementById("requests").innerHTML = output;
 
 }
 
-fetch("http://localhost:3000/requests")
-.then(res=>res.json())
-.then(data=>{
+/* FETCH ALL REQUESTS */
+
+fetch(`${BASE_URL}/request`)
+.then(res => res.json())
+.then(data => {
 allData = data;
 applyFilters();
+})
+.catch(err => {
+console.log(err);
+document.getElementById("requests").innerHTML =
+"<p style='text-align:center'>Failed to load requests</p>";
 });
 
 </script>
