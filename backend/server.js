@@ -13,12 +13,12 @@ app.use(express.json());
 // Serve frontend (optional)
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-// MongoDB Connection
+// MongoDB Atlas Connection
 mongoose.connect(
   "mongodb+srv://db_user_mern:keerthu123@cluster0.3juwzjy.mongodb.net/studentService?retryWrites=true&w=majority"
 )
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.log(err));
+.then(() => console.log("MongoDB Connected"))
+.catch((err) => console.log(err));
 
 // Default Route
 app.get("/", (req, res) => {
@@ -39,7 +39,7 @@ app.post("/request", async (req, res) => {
     });
 
     await newRequest.save();
-    res.send("Request received");
+    res.send("Request received successfully");
 
   } catch (error) {
     console.log(error);
@@ -52,7 +52,9 @@ app.get("/requests", async (req, res) => {
   try {
     const allRequests = await Request.find();
     res.json(allRequests);
+
   } catch (error) {
+    console.log(error);
     res.status(500).send("Error fetching requests");
   }
 });
@@ -62,17 +64,20 @@ app.put("/requests/:id", async (req, res) => {
   try {
     await Request.findByIdAndUpdate(
       req.params.id,
-      { status: req.body.status }
+      {
+        status: req.body.status
+      }
     );
 
-    res.send("Status updated");
+    res.send("Status updated successfully");
 
   } catch (error) {
+    console.log(error);
     res.status(500).send("Error updating status");
   }
 });
 
-// 🔥 IMPORTANT FOR RENDER
+// IMPORTANT FOR RENDER DEPLOY
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
