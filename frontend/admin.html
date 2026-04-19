@@ -1,130 +1,129 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <title>Admin Dashboard</title>
 
 <style>
 
 body{
-font-family: Arial;
-background: #f4f6f9;
-margin: 0;
+    font-family: Arial;
+    background: #f4f6f9;
+    margin: 0;
 }
 
 /* NAVBAR */
 
 .navbar{
-display: flex;
-justify-content: space-between;
-align-items: center;
-background: #2c3e50;
-padding: 15px 30px;
-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    padding: 15px 30px;
+    color: white;
 }
 
 .logo{
-font-size: 18px;
-font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .nav-links a{
-color: white;
-margin-left: 20px;
-text-decoration: none;
-font-size: 14px;
-cursor: pointer;
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
 }
 
 /* DROPDOWN */
 
 .dropdown{
-position: relative;
-display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .dropdown-content{
-display: none;
-position: absolute;
-background: white;
-min-width: 150px;
-box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-border-radius: 6px;
-z-index: 999;
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    z-index: 999;
 }
 
 .dropdown-content a{
-color: black;
-padding: 10px 15px;
-display: block;
-text-decoration: none;
+    color: black;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
 }
 
 .dropdown-content a:hover{
-background: #f1f1f1;
+    background: #f1f1f1;
 }
 
 .dropdown:hover .dropdown-content{
-display: block;
+    display: block;
 }
 
 /* MAIN */
 
 .container{
-padding: 30px;
+    padding: 30px;
 }
 
 h2{
-text-align: center;
-margin-bottom: 25px;
+    text-align: center;
+    margin-bottom: 25px;
 }
 
 /* CARD */
 
 .card{
-background: white;
-padding: 20px;
-margin: 15px auto;
-width: 80%;
-border-radius: 10px;
-box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    background: white;
+    padding: 20px;
+    margin: 15px auto;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
 
 /* STATUS */
 
 .status-approved{
-color: green;
-font-weight: bold;
+    color: green;
+    font-weight: bold;
 }
 
 .status-rejected{
-color: red;
-font-weight: bold;
+    color: red;
+    font-weight: bold;
 }
 
 .status-pending{
-color: orange;
-font-weight: bold;
+    color: orange;
+    font-weight: bold;
 }
 
 /* BUTTON */
 
 button.action{
-padding: 8px 12px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-margin-top: 10px;
-margin-right: 5px;
-color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-right: 5px;
+    color: white;
 }
 
 .approve{
-background: #2ecc71;
+    background: #2ecc71;
 }
 
 .reject{
-background: #e74c3c;
+    background: #e74c3c;
 }
 
 </style>
@@ -134,41 +133,39 @@ background: #e74c3c;
 
 <div class="navbar">
 
-<div class="logo">
-🎓 Admin Panel
-</div>
+    <div class="logo">
+        🎓 Admin Panel
+    </div>
 
-<div class="nav-links">
+    <div class="nav-links">
 
-<div class="dropdown">
+        <div class="dropdown">
+            <a href="#">Request Type ▼</a>
 
-<a href="#">Request Type ▼</a>
+            <div class="dropdown-content">
+                <a onclick="filterType('All')">All</a>
+                <a onclick="filterType('Event')">Event</a>
+                <a onclick="filterType('Leave')">Leave</a>
+                <a onclick="filterType('Certificate')">Certificate</a>
+                <a onclick="filterType('Book')">Book</a>
+            </div>
+        </div>
 
-<div class="dropdown-content">
-<a onclick="filterType('All')">All</a>
-<a onclick="filterType('Event')">Event</a>
-<a onclick="filterType('Leave')">Leave</a>
-<a onclick="filterType('Certificate')">Certificate</a>
-<a onclick="filterType('Book')">Book</a>
-</div>
+        <a onclick="filterStatus('Pending')">Pending</a>
+        <a onclick="filterStatus('Approved')">Approved</a>
+        <a onclick="filterStatus('Rejected')">Rejected</a>
 
-</div>
+        <a href="index.html">Logout</a>
 
-<a onclick="filterStatus('Pending')">Pending</a>
-<a onclick="filterStatus('Approved')">Approved</a>
-<a onclick="filterStatus('Rejected')">Rejected</a>
-
-<a href="index.html">Logout</a>
-
-</div>
+    </div>
 
 </div>
 
 <div class="container">
 
-<h2>Admin - Student Requests</h2>
+    <h2>Admin - Student Requests</h2>
 
-<div id="requests"></div>
+    <div id="requests"></div>
 
 </div>
 
@@ -178,146 +175,152 @@ let allData = [];
 let currentType = "All";
 let currentStatus = "All";
 
-/* BACKEND URL */
+/* ONLY RENDER URL */
+/* NO localhost anywhere */
 
 const BASE_URL = "https://request-app-2.onrender.com";
+
 
 /* UPDATE STATUS */
 
 function updateStatus(id, status){
 
-fetch(`${BASE_URL}/request/${id}`, {
-method: "PUT",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-status: status
-})
-})
-.then(res => res.text())
-.then(data => {
-alert("Status Updated Successfully!");
-location.reload();
-})
-.catch(err => {
-console.log(err);
-alert("Failed to update status");
-});
+    fetch(`${BASE_URL}/request/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            status: status
+        })
+    })
+    .then(res => res.text())
+    .then(data => {
+        alert("Status Updated Successfully!");
+        location.reload();
+    })
+    .catch(err => {
+        console.log(err);
+        alert("Failed to update status");
+    });
 
 }
+
 
 /* FILTER TYPE */
 
 function filterType(type){
-currentType = type;
-applyFilters();
+    currentType = type;
+    applyFilters();
 }
+
 
 /* FILTER STATUS */
 
 function filterStatus(status){
-currentStatus = status;
-applyFilters();
+    currentStatus = status;
+    applyFilters();
 }
+
 
 /* APPLY FILTERS */
 
 function applyFilters(){
 
-let filtered = allData;
+    let filtered = allData;
 
-if(currentType !== "All"){
-filtered = filtered.filter(r =>
-(r.type || "").toLowerCase().includes(currentType.toLowerCase())
-);
+    if(currentType !== "All"){
+        filtered = filtered.filter(r =>
+            (r.type || "").toLowerCase().includes(currentType.toLowerCase())
+        );
+    }
+
+    if(currentStatus !== "All"){
+        filtered = filtered.filter(r =>
+            (r.status || "Pending") === currentStatus
+        );
+    }
+
+    renderRequests(filtered);
+
 }
 
-if(currentStatus !== "All"){
-filtered = filtered.filter(r =>
-(r.status || "Pending") === currentStatus
-);
-}
-
-renderRequests(filtered);
-
-}
 
 /* RENDER REQUESTS */
 
 function renderRequests(data){
 
-let output = "";
+    let output = "";
 
-if(data.length === 0){
-output = "<p style='text-align:center'>No Requests Found</p>";
+    if(data.length === 0){
+        output = "<p style='text-align:center'>No Requests Found</p>";
+    }
+
+    data.forEach(r => {
+
+        let status = r.status || "Pending";
+
+        output += `
+
+        <div class="card">
+
+            <h4>Request ID: ${r._id}</h4>
+
+            <p><b>Student Name:</b> ${r.name}</p>
+
+            <p><b>Request Type:</b> ${r.type || "General"}</p>
+
+            <h4>${r.title}</h4>
+
+            <p>${r.description}</p>
+
+            <p>
+                <b>Status:</b>
+
+                <span class="${
+                    status === "Approved" ? "status-approved" :
+                    status === "Rejected" ? "status-rejected" :
+                    "status-pending"
+                }">
+                    ${status}
+                </span>
+            </p>
+
+            <button
+                class="action approve"
+                onclick="updateStatus('${r._id}','Approved')">
+                Approve
+            </button>
+
+            <button
+                class="action reject"
+                onclick="updateStatus('${r._id}','Rejected')">
+                Reject
+            </button>
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById("requests").innerHTML = output;
 }
 
-data.forEach(r => {
-
-let status = r.status || "Pending";
-
-output += `
-
-<div class="card">
-
-<h4>Request ID: ${r._id}</h4>
-
-<p><b>Student Name:</b> ${r.name}</p>
-
-<p><b>Request Type:</b> ${r.type || "General"}</p>
-
-<h4>${r.title}</h4>
-
-<p>${r.description}</p>
-
-<p>
-<b>Status:</b>
-
-<span class="${
-status === "Approved" ? "status-approved" :
-status === "Rejected" ? "status-rejected" :
-"status-pending"
-}">
-${status}
-</span>
-</p>
-
-<button
-class="action approve"
-onclick="updateStatus('${r._id}','Approved')">
-Approve
-</button>
-
-<button
-class="action reject"
-onclick="updateStatus('${r._id}','Rejected')">
-Reject
-</button>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("requests").innerHTML = output;
-
-}
 
 /* FETCH ALL REQUESTS */
+/* THIS IS FINAL CORRECT LINE */
 
-fetch(`${BASE_URL}/request`)
+fetch("https://request-app-2.onrender.com/request")
 .then(res => res.json())
 .then(data => {
-console.log(data);
-allData = data;
-applyFilters();
+    console.log(data);
+    allData = data;
+    applyFilters();
 })
 .catch(err => {
-console.log(err);
-document.getElementById("requests").innerHTML =
-"<p style='text-align:center'>Failed to load requests</p>";
+    console.log(err);
+    document.getElementById("requests").innerHTML =
+    "<p style='text-align:center'>Failed to load requests</p>";
 });
 
 </script>
