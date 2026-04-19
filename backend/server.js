@@ -10,10 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend (optional)
+// Serve frontend
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-// MongoDB Atlas Connection
+// MongoDB Connection
 mongoose.connect(
   "mongodb+srv://db_user_mern:keerthu123@cluster0.3juwzjy.mongodb.net/studentService?retryWrites=true&w=majority"
 )
@@ -49,7 +49,7 @@ app.post("/request", async (req, res) => {
 });
 
 
-// GET ALL REQUESTS  ✅ (single request route)
+// GET ALL REQUESTS
 app.get("/request", async (req, res) => {
   try {
     const allRequests = await Request.find();
@@ -62,7 +62,7 @@ app.get("/request", async (req, res) => {
 });
 
 
-// UPDATE STATUS (Approve / Reject) ✅
+// UPDATE STATUS
 app.put("/request/:id", async (req, res) => {
   try {
     await Request.findByIdAndUpdate(
@@ -81,7 +81,7 @@ app.put("/request/:id", async (req, res) => {
 });
 
 
-// IMPORTANT FOR RENDER DEPLOY
+// PORT FOR RENDER
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
